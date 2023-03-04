@@ -8,14 +8,18 @@ wss.on("connection", (ws) => {
   console.log("Client connected");
 
   ws.on("message", (message) => {
-    const { type } = JSON.parse(message);
-
+    try {
+      const { type } = JSON.parse(message);
+    } catch (error) {
+      console.log(error.message);
+    }
+    
     setInterval(() => {
       try {
         switch (type) {
           case "Subscribe":
+            subscribers++;
             setTimeout(() => {
-              subscribers++;
               ws.send(
                 JSON.stringify({
                   type: "Subscribe",
@@ -27,8 +31,8 @@ wss.on("connection", (ws) => {
             break;
 
           case "Unsubscribe":
+            subscribers--;
             setTimeout(() => {
-              subscribers--;
               ws.send(
                 JSON.stringify({
                   type: "Unscubscribe",
@@ -73,4 +77,3 @@ wss.on("connection", (ws) => {
     }, 1000);
   });
 });
-

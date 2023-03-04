@@ -12,7 +12,7 @@
 
       ws.onopen = () => {
         const message = {
-          type: "Subscribe" | "Unscubscribe" | "CountSubscribers",
+          type:  "CountSubscribers" ,
         };
         ws.send(JSON.stringify(message));
       };
